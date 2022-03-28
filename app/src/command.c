@@ -76,7 +76,7 @@ void write_handler(uint8_t *entry_no_str, uint8_t *entry_str, uint8_t *reply_buf
         }
 
         if(entry_len > 0 && entry_len < VALUE_SIZE) {
-            if(strlen(master.number[entry_no]) > 0) {
+            if(strlen(master.number[entry_no]) == 0) {
                 master.entries_count++;
             }
             strcpy(master.number[entry_no], entry_str);

@@ -1,5 +1,6 @@
 #include <api_os.h>
 #include <api_debug.h>
+#include <api_sms.h>
 #include <api_hal_watchdog.h>
 
 #include <time.h>
@@ -34,14 +35,20 @@ static void timer_task(void* pData)
 
     while(1) {
         /* Once a week send SMS with an status info */
-        if(TIME_GetTime() - info_sms_time > (604800)) {  
+        if(TIME_GetTime() - info_sms_time > (604800)) {
             info_sms_time = TIME_GetTime();
             send_status_info(true);
         }
 
         WatchDog_KeepAlive();
 
+        SMS_ListMessageRequst(SMS_STATUS_ALL, SMS_STORAGE_SIM_CARD);
+
         OS_Sleep(60000);
+
+        SMS_Storage_Info_t storageInfo;
+        SMS_GetStorageInfo(&storageInfo, SMS_STORAGE_SIM_CARD);
+        Trace(1, "SMS storage sim card info, used:%d, total:%d", storageInfo.used, storageInfo.total);
     }
 }
 

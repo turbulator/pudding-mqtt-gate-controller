@@ -95,6 +95,22 @@ void EventDispatch(API_Event_t* pEvent)
             Trace(10,"SMS error occured! cause:%d", pEvent->param1);
             break;
 
+
+        case API_EVENT_ID_SMS_LIST_MESSAGE:
+            {
+                SMS_Message_Info_t* messageInfo = (SMS_Message_Info_t*)pEvent->pParam1;
+                Trace(1,"message header index:%d, status:%d, number type:%d, number:%s, time:\"%u/%02u/%02u, %02u:%02u:%02u+%02d\"", messageInfo->index, messageInfo->status,
+                                                                                            messageInfo->phoneNumberType, messageInfo->phoneNumber,
+                                                                                            messageInfo->time.year, messageInfo->time.month, messageInfo->time.day,
+                                                                                            messageInfo->time.hour, messageInfo->time.minute, messageInfo->time.second,
+                                                                                            messageInfo->time.timeZone);
+                //need to free data here
+                SMS_DeleteMessage(messageInfo->index, messageInfo->status, SMS_STORAGE_SIM_CARD);
+
+                OS_Free(messageInfo->data);
+                break;
+            }
+
         case API_EVENT_ID_NETWORK_GOT_TIME:
             time_sync_flag = true;
             break;

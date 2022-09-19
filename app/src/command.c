@@ -303,7 +303,7 @@ void sms_init(void)
         Trace(1,"sms set format error");
         return;
     }
-    
+
     if(!SMS_SetParameter(&smsParam, SIM0)) {
         Trace(1,"sms set parameter error");
         return;

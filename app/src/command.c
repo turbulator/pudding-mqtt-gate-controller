@@ -138,7 +138,7 @@ void search_handler(uint8_t *entry_str, uint8_t *reply_buffer)
 void info_handler(uint8_t *reply_buffer)
 {
     static bool first = true;
-    uint8_t uptime_str[80] = "";
+    static uint8_t uptime_str[80] = "";
     uint32_t seconds = uptime(), days = 0, hours = 0, minutes = 0;
 
     if((days = seconds / 86400) > 0) {
